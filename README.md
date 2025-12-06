@@ -10,7 +10,6 @@ R100M (RachanaLM-100M) is a research project to build a **small but high-quality
 
 The long-term goal is to show that **careful data curation + auxiliary tasks** can make a ~100M parameter Telugu model **competitive with much larger generic LLMs** on Telugu-specific tasks, at a fraction of the compute cost.
 
-> This repo is organized like a research project: data pipeline, tokenizer, model, training loops, evaluation, and paper-ready docs.
 
 ## Repository Layout
 
