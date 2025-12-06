@@ -22,7 +22,7 @@ The long-term goal is to show that **careful data curation + auxiliary tasks** c
 
 ## Project Status
 
-- [ ] Phase 0 – Project skeleton & repo structure
+- [x] Phase 0 – Project skeleton & repo structure
 - [ ] Phase 1 – Data cleaning pipeline for Sangraha (Telugu)
 - [ ] Phase 2 – Tokenizer training & HF release
 - [ ] Phase 3 – RachanaLM-100M base pretraining (v0.1)
