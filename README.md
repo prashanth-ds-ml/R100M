@@ -1,35 +1,81 @@
-# R100M – RachanaLM: A Small, Strong Telugu Language Model
+# Rachana GPT
 
-R100M (RachanaLM-100M) is a research project to build a **small but high-quality Telugu language model** that:
+Rachana GPT is a Telugu-first base language model project focused on:
+- building a high-quality Telugu pretraining corpus
+- tokenizing it with SentencePiece
+- training and comparing multiple decoder-only model families
+- monitoring runs locally through dashboards and logs
 
-- Trains primarily on a **single consumer GPU** (RTX 3060 6 GB)
-- Handles **pure Telugu, roman Telugu, and code-mixed Telugu–English**
-- Learns **entity awareness** using NER supervision
-- Gains better **reasoning and comprehension** via synthetic tasks
-- Can be used both as a **generator** and as a **RAG embedding encoder**
+## Current Project State
 
-The long-term goal is to show that **careful data curation + auxiliary tasks** can make a ~100M parameter Telugu model **competitive with much larger generic LLMs** on Telugu-specific tasks, at a fraction of the compute cost.
+Current tokenized pretraining corpus:
+- file: [data/rachana_tokens/tokens.bin](C:/Users/prash/Projects/Rachana_GPT/data/rachana_tokens/tokens.bin)
+- token count: `3,556,233,011`
+- tokenizer: [tokenizer/rachana_bpe32k.model](C:/Users/prash/Projects/Rachana_GPT/tokenizer/rachana_bpe32k.model)
 
+Current final text corpus:
+- file: [data/final/final_pretrain_corpus_v2_sangraha76.txt](C:/Users/prash/Projects/Rachana_GPT/data/final/final_pretrain_corpus_v2_sangraha76.txt)
+- metadata: [data/final/final_pretrain_corpus_v2_sangraha76.meta.json](C:/Users/prash/Projects/Rachana_GPT/data/final/final_pretrain_corpus_v2_sangraha76.meta.json)
 
-## Repository Layout
+Families currently supported:
+- GPT
+- LLaMA
+- Mistral
+- Hybrid with LLaMA backbone
+- Hybrid with Mistral backbone
 
-- `data/` – raw and processed corpora, tokenizer corpus, binary token files
-- `r100m/` – Python package with configs, model, training, eval and inference code
-- `scripts/` – CLI scripts to prepare data and run training
-- `notebooks/` – exploratory notebooks for cleaning, tokenizer tests, sanity checks
-- `docs/` – project plan, research log, paper outline
-- `tests/` – basic unit tests for tokenizer, model shapes, etc.
+## Main Scripts
 
-## Project Status
+Data and token pipeline:
+- [scripts/01_tokenize_eos.py](C:/Users/prash/Projects/Rachana_GPT/scripts/01_tokenize_eos.py)
+- [scripts/02_make_memmap.py](C:/Users/prash/Projects/Rachana_GPT/scripts/02_make_memmap.py)
+- [scripts/03_decode_token_samples.py](C:/Users/prash/Projects/Rachana_GPT/scripts/03_decode_token_samples.py)
 
-- [x] Phase 0 – Project skeleton & repo structure
-- [ ] Phase 1 – Data cleaning pipeline for Sangraha (Telugu)
-- [ ] Phase 2 – Tokenizer training & HF release
-- [ ] Phase 3 – RachanaLM-100M base pretraining (v0.1)
-- [ ] Phase 4 – Roman Telugu & code-mix robustness (v0.2)
-- [ ] Phase 5 – NER multi-task & entity awareness (v0.3)
-- [ ] Phase 6 – Reasoning & comprehension (v0.4)
-- [ ] Phase 7 – RAG embedding model (v1.0)
-- [ ] Phase 8 – A100 scaling experiments & paper
+Training:
+- [scripts/04_train_hf_gpt2.py](C:/Users/prash/Projects/Rachana_GPT/scripts/04_train_hf_gpt2.py)
+- [scripts/04_train_hf_llama.py](C:/Users/prash/Projects/Rachana_GPT/scripts/04_train_hf_llama.py)
+- [scripts/04_train_hf_mistral.py](C:/Users/prash/Projects/Rachana_GPT/scripts/04_train_hf_mistral.py)
+- [scripts/04_train_hf_hybrid.py](C:/Users/prash/Projects/Rachana_GPT/scripts/04_train_hf_hybrid.py)
+- [scripts/05_run_experiment_queue.py](C:/Users/prash/Projects/Rachana_GPT/scripts/05_run_experiment_queue.py)
 
-This repo is in **active development**. All experiments and decisions will be logged in `docs/research_log.md`.
+Dashboards:
+- [dashboard_live/server.py](C:/Users/prash/Projects/Rachana_GPT/dashboard_live/server.py)
+- [dashboard_research/server.py](C:/Users/prash/Projects/Rachana_GPT/dashboard_research/server.py)
+- [dashboard_html/build_dashboard.py](C:/Users/prash/Projects/Rachana_GPT/dashboard_html/build_dashboard.py)
+
+## Documentation
+
+Main runbook:
+- [commands.md](C:/Users/prash/Projects/Rachana_GPT/commands.md)
+
+Training guide:
+- [TRAINING.md](C:/Users/prash/Projects/Rachana_GPT/TRAINING.md)
+
+Dashboard guide:
+- [DASHBOARDS.md](C:/Users/prash/Projects/Rachana_GPT/DASHBOARDS.md)
+
+Experiment presets:
+- [EXPERIMENTS.md](C:/Users/prash/Projects/Rachana_GPT/EXPERIMENTS.md)
+
+Generation evaluation:
+- [GENERATION_EVAL.md](C:/Users/prash/Projects/Rachana_GPT/GENERATION_EVAL.md)
+
+Architecture notes:
+- [TECHNIQUES.md](C:/Users/prash/Projects/Rachana_GPT/TECHNIQUES.md)
+
+## Recommended Workflow
+
+1. Activate the `llm` env.
+2. Start the live dashboard.
+3. Train one model at a time with the commands in [commands.md](C:/Users/prash/Projects/Rachana_GPT/commands.md).
+4. Resume the same run by keeping the same `run_dir` and increasing `max_steps`.
+5. Compare runs in the research dashboard.
+
+## Note
+
+Some older markdown files in the repo are historical and may not reflect the latest current training setup as accurately as:
+- [README.md](C:/Users/prash/Projects/Rachana_GPT/README.md)
+- [TRAINING.md](C:/Users/prash/Projects/Rachana_GPT/TRAINING.md)
+- [DASHBOARDS.md](C:/Users/prash/Projects/Rachana_GPT/DASHBOARDS.md)
+- [EXPERIMENTS.md](C:/Users/prash/Projects/Rachana_GPT/EXPERIMENTS.md)
+- [commands.md](C:/Users/prash/Projects/Rachana_GPT/commands.md)
